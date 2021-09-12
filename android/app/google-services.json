@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "304769888913",
+    "project_id": "notification-and-background",
+    "storage_bucket": "notification-and-background.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304769888913:android:01e3735815995a02e90530",
+        "android_client_info": {
+          "package_name": "com.enelsis.notification_and_background"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304769888913-q6mvuimcn5gaqd4vuie51b247g21hob5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB39Gqa98rU2ZV1_17TgSeXmHWEu63KIjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304769888913-q6mvuimcn5gaqd4vuie51b247g21hob5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "304769888913-ka0nos2vnfqkfgf9dkcrumdga6vi0c3r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.enelsis.notification-and-background"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:304769888913:android:f98f847385192d85e90530",
+        "android_client_info": {
+          "package_name": "com.todoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "304769888913-q6mvuimcn5gaqd4vuie51b247g21hob5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB39Gqa98rU2ZV1_17TgSeXmHWEu63KIjk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "304769888913-q6mvuimcn5gaqd4vuie51b247g21hob5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "304769888913-ka0nos2vnfqkfgf9dkcrumdga6vi0c3r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.enelsis.notification-and-background"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
