@@ -8,28 +8,22 @@
 
 import React, {useEffect, useState} from 'react';
 import {
-  SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   useColorScheme,
   View,
   Button,
-  Platform,
-  TextInput,
 } from 'react-native';
 
-import {Header, Colors} from 'react-native/Libraries/NewAppScreen';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   IconButton,
   AddIcon,
-  Icon,
   Center,
   Input,
   NativeBaseProvider,
-  VirtualizedList,
   List,
   Text,
   Heading,
@@ -38,7 +32,7 @@ import firestore from '@react-native-firebase/firestore';
 
 function AddButton({navigation}) {
   return (
-    <View style={{flex: 1, justifyContent: 'flex-end'}}>
+    <View>
       <IconButton
         variant="solid"
         onPress={() => navigation.navigate('Add To Do')}
@@ -48,17 +42,17 @@ function AddButton({navigation}) {
   );
 }
 function HomeScreen({navigation}) {
-  const [newToDo, setNewToDo] = useState([]);
+  const [toDoList, setToDoList] = useState([]);
   const ref = firestore().collection('toDo');
   function getTodoList() {
-    setNewToDo([]);
+    setToDoList([]);
     ref.onSnapshot(query => {
       // setNewToDo(query.lenght);
       const items = [];
       query.forEach(item => {
-        items.push(item.data());
+        items.push({id: item.id, text: item.data()});
       });
-      setNewToDo(items);
+      setToDoList(items);
     });
   }
   useEffect(() => {
@@ -66,6 +60,7 @@ function HomeScreen({navigation}) {
     return () => {
       getTodoList();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const Item = ({title, index}) => (
     <List.Item
@@ -89,8 +84,8 @@ function HomeScreen({navigation}) {
             To Do List
           </Heading>
         </Center>
-        {newToDo.map((todo, index) => (
-          <Item title={todo.mission} index={index}></Item>
+        {toDoList.map(todo => (
+          <Item title={todo.text.mission} index={todo.id} />
         ))}
 
         <AddButton navigation={navigation} />
@@ -101,7 +96,7 @@ function HomeScreen({navigation}) {
 
 function AddToDoScreen({navigation}) {
   const [newToDo, setNewToDO] = useState(' ');
-  const deneme = () => {
+  const addFireStore = () => {
     firestore().collection('toDo').add({mission: newToDo});
     navigation.goBack();
   };
@@ -114,7 +109,7 @@ function AddToDoScreen({navigation}) {
         value={newToDo}
         onChangeText={text => setNewToDO(text)}
       />
-      <Button variant="solid" title="ADD" onPress={deneme} />
+      <Button variant="solid" title="ADD" onPress={addFireStore} />
     </View>
   );
 }
@@ -135,14 +130,6 @@ function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
-    /* <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-      </ScrollView>
-    </SafeAreaView>*/
   );
 }
 
@@ -160,8 +147,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '400',
   },
-  highlight: {
-    fontWeight: '700',
+  addButton: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
 });
 
