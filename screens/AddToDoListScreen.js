@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import firestore from '@react-native-firebase/firestore';
 function AddToDoListScreen({navigation}) {
   const [newToDo, setNewToDo] = useState(' ');
-  const [newToDoDate, setNewToDoDate] = useState("");
+  const [newToDoDate, setNewToDoDate] = useState(null);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
@@ -20,7 +20,6 @@ function AddToDoListScreen({navigation}) {
 
   const handleConfirm = (date) => {
     setNewToDoDate(date);
-    console.warn("A date has been picked: ", date);
     hideDatePicker();
   };
   const addFireStore = () => {

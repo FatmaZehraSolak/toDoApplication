@@ -10,7 +10,7 @@ import {
   List,
   Heading,
   Box,
-  CheckIcon
+  CheckIcon,HStack
 } from 'native-base';
 import firestore from '@react-native-firebase/firestore';
 
@@ -30,9 +30,9 @@ function HomeScreen({navigation}) {
             if (key == '_seconds') {
               const dateInMillis = v * 1000;
 
-
+              const date1 = new Date(dateInMillis);
               var date =
-                moment( Date(dateInMillis)).format('DD-MM-YYYY') +
+                moment( date1.toISOString()).format('DD-MM-YYYY') +
                 ' ' +
                 new Date(dateInMillis).toLocaleTimeString();
               items.push({
@@ -70,6 +70,7 @@ function HomeScreen({navigation}) {
         {toDoList.map(todo => (
           <Box>
             <ListItem
+              
               title={todo.text.mission}
               index={todo.id}
               date={todo.deadline}
@@ -92,6 +93,10 @@ function GoAddToDoScreenButton({navigation}) {
       />
     </View>
   );
+}
+const deleteToDo=(index)=>{
+  
+  firestore().collection("toDo").doc(index).delete()
 }
 const ListItem = ({title, index, date}) => (
   <List.Item
@@ -137,7 +142,7 @@ const ListItem = ({title, index, date}) => (
   />
   <IconButton
         variant="solid"
-        
+        onPress={()=>deleteToDo(index)}
         icon={<CheckIcon/>}
       />
 
