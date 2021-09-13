@@ -1,7 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView, View, Button, Text} from 'react-native';
+import DatePicker from 'react-native-datepicker'
+import moment from 'moment';
 
-import {IconButton, AddIcon, Center, List, Heading} from 'native-base';
+import {
+  IconButton,
+  AddIcon,
+  Center,
+  List,
+  Heading,
+  Box,
+  CheckIcon
+} from 'native-base';
 import firestore from '@react-native-firebase/firestore';
 
 function HomeScreen({navigation}) {
@@ -14,7 +24,27 @@ function HomeScreen({navigation}) {
       // setNewToDo(query.lenght);
       const items = [];
       query.forEach(item => {
-        items.push({id: item.id, text: item.data()});
+        var deneme = item.data().deadline;
+        if (deneme != undefined) {
+          Object.entries(deneme).map(([key, v]) => {
+            if (key == '_seconds') {
+              const dateInMillis = v * 1000;
+
+
+              var date =
+                moment( Date(dateInMillis)).format('DD-MM-YYYY') +
+                ' ' +
+                new Date(dateInMillis).toLocaleTimeString();
+              items.push({
+                id: item.id,
+                text: item.data(),
+                deadline: date.toString(),
+              });
+            }
+          });
+        } else {
+          items.push({id: item.id, text: item.data(), deadline: null});
+        }
       });
       setToDoList(items);
     });
@@ -38,7 +68,13 @@ function HomeScreen({navigation}) {
           </Heading>
         </Center>
         {toDoList.map(todo => (
-          <ListItem title={todo.text.mission} index={todo.id} />
+          <Box>
+            <ListItem
+              title={todo.text.mission}
+              index={todo.id}
+              date={todo.deadline}
+            />
+          </Box>
         ))}
 
         <GoAddToDoScreenButton navigation={navigation} />
@@ -57,17 +93,56 @@ function GoAddToDoScreenButton({navigation}) {
     </View>
   );
 }
-const ListItem = ({title, index}) => (
+const ListItem = ({title, index, date}) => (
   <List.Item
     key={index}
     bg="emerald.400"
     borderRadius="md"
     justifyContent="center"
     _text={{fontSize: '2xl'}}
-    px={4}
+    px={1}
     py={2}
     my={2}>
     {title}
+    <Box style={ {
+      flex: 1,
+      width: "80%" // or width of the box - intended margin
+  }}/>
+    
+  
+    <DatePicker
+    style={{width: 150}}
+    date={date}
+    mode="date"
+    disabled
+    placeholder="Not Selected"
+    format="YYYY-MM-DD HH:mm"
+    minDate="2016-05-01"
+    maxDate="2016-06-01"
+    confirmBtnText="Confirm"
+    cancelBtnText="Cancel"
+    customStyles={{
+      dateIcon: {
+        position: 'absolute',
+        left: 0,
+        top: 4,
+        marginLeft: 0
+      },
+      dateInput: {
+        marginLeft: 36
+      }
+      // ... You can check the source to find the other keys.
+    }}
+    
+  />
+  <IconButton
+        variant="solid"
+        
+        icon={<CheckIcon/>}
+      />
+
+    
+    
   </List.Item>
 );
 
