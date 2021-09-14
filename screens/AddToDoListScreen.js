@@ -22,7 +22,7 @@ function AddToDoListScreen({navigation}) {
     hideDatePicker();
   };
   const addFireStore = () => {
-    firestore().collection('toDo').add({mission: newToDo,deadline:newToDoDate});
+    firestore().collection('toDo').add({mission: newToDo,deadline:newToDoDate,completed:false});
     navigation.goBack();
   };
   

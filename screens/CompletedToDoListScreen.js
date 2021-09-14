@@ -5,12 +5,11 @@ import moment from 'moment';
 import {IconButton, AddIcon, Center, List, Heading, Box} from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import firestore from '@react-native-firebase/firestore';
-function HomeScreen({navigation}) {
+function CompletedToDoListScreen({navigation}) {
   const [toDoList, setToDoList] = useState([]);
-  
+  const ref = firestore().collection('toDo').where('completed', '==', true);
 
-  function getTodoList(ref) {
-    
+  function getTodoList() {
     setToDoList([]);
     ref.onSnapshot(query => {
       const items = [];
@@ -42,10 +41,9 @@ function HomeScreen({navigation}) {
   }
 
   useEffect(() => {
-   
-    getTodoList(firestore().collection('toDo').where('completed', '==', false));
+    getTodoList();
     return () => {
-      getTodoList(firestore().collection('toDo').where('completed', '==', false));
+      getTodoList();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -57,7 +55,7 @@ function HomeScreen({navigation}) {
         <Center>
           <Heading bold highlight>
             {' '}
-            To Do List
+           Completed To Do List
           </Heading>
         </Center>
         {toDoList.map(todo => (
@@ -70,11 +68,7 @@ function HomeScreen({navigation}) {
           </Box>
         ))}
 
-        <IconButton
-          variant="solid"
-          onPress={() => navigation.navigate('Add To Do')}
-          icon={<AddIcon />}
-        />
+        
       </View>
     </ScrollView>
   );
@@ -82,9 +76,6 @@ function HomeScreen({navigation}) {
 
 const deleteToDo = index => {
   firestore().collection('toDo').doc(index).delete();
-};
-const updateToDo = index => {
-  firestore().collection('toDo').doc(index).update({completed: true});
 };
 
 const ListItem = ({title, index, date}) => (
@@ -116,14 +107,7 @@ const ListItem = ({title, index, date}) => (
       name="trash-o"
       onPress={() => deleteToDo(index)}
     />
-    <Icon.Button
-      color="#000000"
-      size={20}
-      backgroundColor={''}
-      name="check"
-      onPress={() => updateToDo(index)}
-    />
   </List.Item>
 );
 
-export default HomeScreen;
+export default CompletedToDoListScreen;
