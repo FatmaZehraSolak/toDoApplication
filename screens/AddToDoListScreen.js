@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
-import {View, Button,Platform} from 'react-native';
+import {View, Button} from 'react-native';
 
-import {Input, Text} from 'native-base';
+import {Input, Text,Box} from 'native-base';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import DateTimePicker from '@react-native-community/datetimepicker';
 import firestore from '@react-native-firebase/firestore';
 function AddToDoListScreen({navigation}) {
   const [newToDo, setNewToDo] = useState(' ');
@@ -30,15 +29,16 @@ function AddToDoListScreen({navigation}) {
   
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'flex-start'}}>
-      <Text>What Are Yo Planning</Text>
+      <Text>What Are Yo Planning ?</Text>
       <Input
         width="100%"
         variant="filled"
         value={newToDo}
         onChangeText={text => setNewToDo(text)}
       />
-     <Button title="Show Date Picker" onPress={showDatePicker} />   
-    
+      <Box height="5"/>
+     <Button title="Pick Deadline" onPress={showDatePicker} />   
+    <Box height="5"/>
       <Button variant="solid" title="ADD" onPress={addFireStore} />
 
       <DateTimePickerModal
